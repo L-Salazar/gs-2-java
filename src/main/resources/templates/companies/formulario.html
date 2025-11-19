@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title th:text="${empresa.id} != null ? 'Editar Empresa • RemoteReady' : 'Nova Empresa • RemoteReady'">Empresa • RemoteReady</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50:'#eff6ff',100:'#dbeafe',200:'#bfdbfe',300:'#93c5fd',
+                            400:'#60a5fa',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8',
+                            800:'#1e40af',900:'#1e3a8a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        html,body{height:100%}
+        body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 text-slate-900">
+
+<header class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
+    <div class="mx-auto max-w-5xl px-6 py-4">
+        <div class="flex items-center justify-between">
+            <a th:href="@{/companies}" class="inline-flex items-center gap-2 text-slate-700 hover:text-brand-600 transition">
+                <div class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand-100 text-brand-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </div>
+                <span class="font-semibold">Voltar para Empresas</span>
+            </a>
+            <a th:href="@{/logout}" class="text-sm text-slate-500 hover:text-slate-900 hover:underline">Sair</a>
+        </div>
+    </div>
+</header>
+
+<main class="mx-auto max-w-5xl px-6 py-8">
+    <div class="mb-6">
+        <h1 class="text-3xl font-extrabold tracking-tight text-slate-900"
+            th:text="${empresa.id} != null ? 'Editar empresa' : 'Nova empresa'">Nova empresa</h1>
+        <p class="mt-1.5 text-sm text-slate-600">Cadastre empresas parceiras e oportunidades de trabalho remoto.</p>
+    </div>
+
+    <!-- Card do formulário -->
+    <div class="rounded-2xl bg-white p-8 shadow-xl shadow-slate-200/50 border border-slate-200">
+        <form th:object="${empresa}"
+              th:action="@{${empresa.id != null ? '/companies/alterar/' + empresa.id : '/companies/salvar'}}"
+              method="post" class="space-y-6" novalidate>
+
+            <!-- NOME -->
+            <div>
+                <label for="nomeEmpresa" class="mb-2 block text-sm font-semibold text-slate-900">Nome da Empresa</label>
+                <input id="nomeEmpresa" th:field="*{nomeEmpresa}" type="text" placeholder="Tech Corp LTDA"
+                       class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none transition
+                        focus:border-brand-500 focus:ring-4 focus:ring-brand-100"/>
+                <p class="mt-1.5 text-xs text-red-600" th:if="${#fields.hasErrors('nomeEmpresa')}" th:errors="*{nomeEmpresa}">Erro</p>
+            </div>
+
+            <!-- DESCRIÇÃO -->
+            <div>
+                <label for="descricaoEmpresa" class="mb-2 block text-sm font-semibold text-slate-900">Descrição</label>
+                <textarea id="descricaoEmpresa" th:field="*{descricaoEmpresa}" rows="4" placeholder="Descreva a empresa e o que ela faz..."
+                          class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none transition
+                        focus:border-brand-500 focus:ring-4 focus:ring-brand-100 resize-none"></textarea>
+                <p class="mt-1.5 text-xs text-red-600" th:if="${#fields.hasErrors('descricaoEmpresa')}" th:errors="*{descricaoEmpresa}">Erro</p>
+            </div>
+
+            <!-- ÁREA e HIRING NOW -->
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div>
+                    <label for="area" class="mb-2 block text-sm font-semibold text-slate-900">Área de Atuação</label>
+                    <input id="area" th:field="*{area}" type="text" placeholder="Tecnologia, Marketing, etc."
+                           class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none transition
+                            focus:border-brand-500 focus:ring-4 focus:ring-brand-100"/>
+                    <p class="mt-1.5 text-xs text-red-600" th:if="${#fields.hasErrors('area')}" th:errors="*{area}">Erro</p>
+                </div>
+
+                <div>
+                    <label for="hiringNow" class="mb-2 block text-sm font-semibold text-slate-900">Contratando Agora?</label>
+                    <div class="relative">
+                        <select id="hiringNow" th:field="*{hiringNow}"
+                                class="w-full appearance-none rounded-xl border border-slate-300 bg-white px-4 py-3 pr-12
+                                text-slate-900 outline-none transition
+                                focus:border-brand-500 focus:ring-4 focus:ring-brand-100">
+                            <option value="" disabled th:selected="${empresa.hiringNow == null}">Selecione...</option>
+                            <option th:each="h : ${hiringOptions}" th:value="${h}" th:text="${h == 'Y' ? 'Sim' : 'Não'}"></option>
+                        </select>
+                        <div class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="mt-1.5 text-xs text-red-600" th:if="${#fields.hasErrors('hiringNow')}" th:errors="*{hiringNow}">Erro</p>
+                </div>
+            </div>
+
+            <!-- LOGO URL e WEBSITE -->
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div>
+                    <label for="logoUrl" class="mb-2 block text-sm font-semibold text-slate-900">URL do Logo</label>
+                    <input id="logoUrl" th:field="*{logoUrl}" type="url" placeholder="https://exemplo.com/logo.png"
+                           class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none transition
+                            focus:border-brand-500 focus:ring-4 focus:ring-brand-100"/>
+                    <p class="mt-1.5 text-xs text-red-600" th:if="${#fields.hasErrors('logoUrl')}" th:errors="*{logoUrl}">Erro</p>
+                </div>
+
+                <div>
+                    <label for="website" class="mb-2 block text-sm font-semibold text-slate-900">Website</label>
+                    <input id="website" th:field="*{website}" type="url" placeholder="https://exemplo.com"
+                           class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none transition
+                            focus:border-brand-500 focus:ring-4 focus:ring-brand-100"/>
+                    <p class="mt-1.5 text-xs text-red-600" th:if="${#fields.hasErrors('website')}" th:errors="*{website}">Erro</p>
+                </div>
+            </div>
+
+            <!-- Ações -->
+            <div class="flex flex-col-reverse items-stretch gap-3 pt-4 sm:flex-row sm:items-center sm:justify-end">
+                <a th:href="@{/companies}"
+                   class="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    Cancelar
+                </a>
+                <button type="submit"
+                        class="inline-flex items-center justify-center rounded-xl bg-brand-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-500/30 transition hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2">
+                    Salvar Empresa
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>

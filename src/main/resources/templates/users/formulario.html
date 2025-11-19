@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title th:text="${usuario.id} != null ? 'Editar Usuário • RemoteReady' : 'Novo Usuário • RemoteReady'">Usuário • RemoteReady</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50:'#eff6ff',100:'#dbeafe',200:'#bfdbfe',300:'#93c5fd',
+                            400:'#60a5fa',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8',
+                            800:'#1e40af',900:'#1e3a8a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        html,body{height:100%}
+        body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 text-slate-900">
+
+<header class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
+    <div class="mx-auto max-w-4xl px-6 py-4">
+        <div class="flex items-center justify-between">
+            <a th:href="@{/users}" class="inline-flex items-center gap-2 text-slate-700 hover:text-brand-600 transition">
+                <div class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-brand-100 text-brand-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </div>
+                <span class="font-semibold">Voltar para Usuários</span>
+            </a>
+            <a th:href="@{/logout}" class="text-sm text-slate-500 hover:text-slate-900 hover:underline">Sair</a>
+        </div>
+    </div>
+</header>
+
+<main class="mx-auto max-w-4xl px-6 py-8">
+    <div class="mb-6">
+        <h1 class="text-3xl font-extrabold tracking-tight text-slate-900"
+            th:text="${usuario.id} != null ? 'Editar usuário' : 'Novo usuário'">Novo usuário</h1>
+        <p class="mt-1.5 text-sm text-slate-600">Preencha as informações do usuário abaixo.</p>
+    </div>
+
+    <!-- Card do formulário -->
+    <div class="rounded-2xl bg-white p-8 shadow-xl shadow-slate-200/50 border border-slate-200">
+        <form th:object="${usuario}"
+              th:action="@{${usuario.id != null ? '/users/alterar/' + usuario.id : '/users/salvar'}}"
+              method="post" class="space-y-6" novalidate>
+
+            <!-- NOME -->
+            <div>
+                <label for="nomeUsuario" class="mb-2 block text-sm font-semibold text-slate-900">Nome Completo</label>
+                <input id="nomeUsuario" th:field="*{nomeUsuario}" type="text" placeholder="João Silva"
+                       class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none transition
+                        focus:border-brand-500 focus:ring-4 focus:ring-brand-100"/>
+                <p class="mt-1.5 text-xs text-red-600" th:if="${#fields.hasErrors('nomeUsuario')}" th:errors="*{nomeUsuario}">Erro</p>
+            </div>
+
+            <!-- EMAIL -->
+            <div>
+                <label for="email" class="mb-2 block text-sm font-semibold text-slate-900">E-mail</label>
+                <input id="email" th:field="*{email}" type="email" placeholder="joao@exemplo.com"
+                       class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none transition
+                        focus:border-brand-500 focus:ring-4 focus:ring-brand-100"/>
+                <p class="mt-1.5 text-xs text-red-600" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Erro</p>
+            </div>
+
+            <!-- PASSWORD e ROLE -->
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div>
+                    <label for="password" class="mb-2 block text-sm font-semibold text-slate-900">Senha</label>
+                    <input id="password" th:field="*{password}" type="password" placeholder="••••••••"
+                           class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 outline-none transition
+                            focus:border-brand-500 focus:ring-4 focus:ring-brand-100"/>
+                    <p class="mt-1.5 text-xs text-red-600" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Erro</p>
+                </div>
+
+                <div>
+                    <label for="role" class="mb-2 block text-sm font-semibold text-slate-900">Função</label>
+                    <div class="relative">
+                        <select id="role" th:field="*{role}"
+                                class="w-full appearance-none rounded-xl border border-slate-300 bg-white px-4 py-3 pr-12
+                                text-slate-900 outline-none transition
+                                focus:border-brand-500 focus:ring-4 focus:ring-brand-100">
+                            <option value="" disabled th:selected="${usuario.role == null}" class="text-slate-500">
+                                Selecione...
+                            </option>
+                            <option th:each="r : ${roles}" th:value="${r}" th:text="${r}"></option>
+                        </select>
+                        <div class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="mt-1.5 text-xs text-red-600" th:if="${#fields.hasErrors('role')}" th:errors="*{role}">Erro</p>
+                </div>
+            </div>
+
+            <!-- Ações -->
+            <div class="flex flex-col-reverse items-stretch gap-3 pt-4 sm:flex-row sm:items-center sm:justify-end">
+                <a th:href="@{/users}"
+                   class="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+                    Cancelar
+                </a>
+                <button type="submit"
+                        class="inline-flex items-center justify-center rounded-xl bg-brand-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-500/30 transition hover:bg-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2">
+                    Salvar Usuário
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+</body>
+</html>
