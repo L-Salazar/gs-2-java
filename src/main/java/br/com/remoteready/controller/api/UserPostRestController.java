@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/user-posts")
-@CrossOrigin(origins = "*") // Permitir requisições do mobile
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class UserPostRestController {
 
     private final UserPostService userPostService;
