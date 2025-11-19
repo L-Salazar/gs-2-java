@@ -7,11 +7,43 @@
 
 Deploy: [https://gs-2-java.onrender.com/login]
 
-# 🧠 RemoteReady
-### Plataforma Inteligente para Capacitação em Trabalho Remoto e Híbrido
-**Web Admin + API REST + Mobile App + Oracle Database**
+Vide explicativo no YouTube: [https://www.youtube.com/watch?v=OZ9DWHz4LJI]
 
----
+# Acessos na plataforma
+
+**Acesso com ADMIN**
+
+E-mail: admin@remoteready.com
+
+Senha: 123123ab
+
+**Acesso com OEPRADOR**
+
+E-mail: operador@remoteready.com
+
+Senha: 123123ab
+
+# 🧠 RemoteReady
+RemoteReady é uma plataforma moderna desenvolvida para preparar estudantes e profissionais para o modelo de trabalho remoto e híbrido, que hoje domina empresas de tecnologia, inovação e serviços digitais.
+O projeto oferece uma experiência completa composta por:
+
+A solução permite que usuários consumam conteúdos curtos sobre produtividade, carreira e boas práticas de trabalho remoto. Conforme avançam na leitura das postagens, o sistema registra automaticamente o progresso e, ao atingir 10 posts lidos, o usuário se torna apto a gerar um certificado digital, comprovando sua jornada de aprendizado.
+
+Além disso, o RemoteReady integra um chat inteligente, onde as conversas entre o usuário e a IA são salvas em banco, permitindo histórico e recomendação de conteúdos. O sistema também disponibiliza uma área dedicada a empresas que contratam profissionais remotos ou híbridos, oferecendo uma visão real do mercado.
+
+A administração de usuários, postagens, empresas e certificados é realizada por um painel web seguro, voltado para gestores ou equipe acadêmica.
+
+O banco de dados Oracle centraliza toda a operação, com tabelas bem estruturadas, relacionamento claro e suporte à execução de procedures externas por meio de um segundo DataSource configurado.
+
+# Imagens demonstrativas da aplicação
+
+<img width="1640" height="980" alt="image" src="https://github.com/user-attachments/assets/3a5160ab-054b-48cc-8ec5-aa4607a63a4b" />
+<img width="1597" height="1153" alt="image" src="https://github.com/user-attachments/assets/017ecc64-0c92-4cea-bf30-30a0dcf9101d" />
+<img width="1602" height="920" alt="image" src="https://github.com/user-attachments/assets/baffc94d-11f7-4c3f-9095-a5c85c98855c" />
+<img width="1787" height="957" alt="image" src="https://github.com/user-attachments/assets/3451513d-7f59-454d-a726-18923291a09c" />
+<img width="1545" height="1018" alt="image" src="https://github.com/user-attachments/assets/62266c6f-ee63-45aa-806b-812cc9517c12" />
+<img width="1800" height="960" alt="image" src="https://github.com/user-attachments/assets/696a23d9-d5f8-4396-838f-06ec1b695687" />
+<img width="1637" height="1100" alt="image" src="https://github.com/user-attachments/assets/68e68d99-054c-48f1-8386-27120612aa39" />
 
 
 
@@ -242,18 +274,9 @@ Configure:
 
 ```
 spring.datasource.*
-spring.second-datasource.*
 ```
 
 ---
-
-## ▶️ Como Rodar o Mobile
-
-```sh
-cd mobile
-npm install
-npx expo start
-```
 
 ---
 
