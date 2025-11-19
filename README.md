@@ -3,11 +3,17 @@
 - Alexsandro Macedo: RM557068
 - Leonardo Faria Salazar: RM557484
 
+## Links
+
+Deploy: [https://gs-2-java.onrender.com/login]
+
 # 🧠 RemoteReady
 ### Plataforma Inteligente para Capacitação em Trabalho Remoto e Híbrido
 **Web Admin + API REST + Mobile App + Oracle Database**
 
 ---
+
+
 
 ## 📌 Visão Geral
 
