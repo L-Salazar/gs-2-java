@@ -52,6 +52,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors(cors -> cors.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         // Permite acesso público às páginas de login, logout e recursos estáticos
                         .requestMatchers("/login","/register", "/logout", "/error", "/css/**", "/js/**", "/images/**").permitAll()
