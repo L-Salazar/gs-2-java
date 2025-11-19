@@ -13,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "*") // Permitir requisições do mobile
 public class UsuarioRestController {
 
     private final UsuarioService usuarioService;
