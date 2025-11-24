@@ -264,21 +264,93 @@ O app consome 100% da API REST e oferece:
 
 ---
 
-## ▶️ Como Rodar o Backend
+# ▶️ Como Rodar o Backend
 
+## ✅ 1. Pré-requisitos
+
+- Java 17+
+- Maven 3.9+
+- Oracle Database (local ou remoto)
+- Oracle Instant Client (opcional)
+
+---
+
+## ⚙️ 2. Configuração do `application.properties`
+
+Local:
+```
+src/main/resources/application.properties
+```
+
+### Datasource principal (JPA)
+```properties
+spring.datasource.url=jdbc:oracle:thin:@<HOST>:<PORT>/<SERVICE_NAME>
+spring.datasource.username=YOUR_USER
+spring.datasource.password=YOUR_PASSWORD
+spring.datasource.driver-class-name=oracle.jdbc.driver.OracleDriver
+
+spring.jpa.hibernate.ddl-auto=none
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.OracleDialect
+```
+
+### Segundo datasource (procedures)
+```properties
+spring.datasource.proc.url=jdbc:oracle:thin:@<HOST>:<PORT>/<SERVICE_NAME>
+spring.datasource.proc.username=YOUR_USER
+spring.datasource.proc.password=YOUR_PASSWORD
+spring.datasource.proc.driver-class-name=oracle.jdbc.driver.OracleDriver
+```
+
+---
+
+## ▶️ 3. Rodar com Maven
 ```sh
 mvn spring-boot:run
 ```
 
-Configure:
+---
 
-```
-spring.datasource.*
+## ▶️ 4. Rodar pela IDE
+1. Abra o projeto  
+2. Localize `RemoteReadyApplication.java`  
+3. Clique em **Run**
+
+---
+
+## ▶️ 5. Rodar via JAR
+```sh
+mvn clean package
+java -jar target/gs2-java-0.0.1-SNAPSHOT.jar
 ```
 
 ---
 
+## 🗄️ 6. Testar conexão Oracle
+```sql
+SELECT 'OK' FROM dual;
+```
+
 ---
+
+## 🧪 7. Endpoints úteis
+- Login: `POST /api/usuarios/login`
+- Posts: `GET /api/blog-posts`
+- Marcar lido: `POST /api/user-posts/mark-read?userId=1&postId=2`
+- Histórico chat: `GET /api/chat-history/user/1`
+- Certificado: `POST /api/certificates/generate?userId=1`
+
+---
+
+## 🔐 8. Acessos
+ADMIN  
+- admin@remoteready.com  
+- 123123ab  
+
+OPERADOR  
+- operador@remoteready.com  
+- 123123ab  
+
 
 ## 🏁 Conclusão
 
